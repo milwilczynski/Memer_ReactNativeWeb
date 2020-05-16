@@ -26,7 +26,13 @@ class App extends React.Component {
         const { dimensions } = this.state;
         return (
             <View style={{height: dimensions.window.height, width: dimensions.window.width, backgroundColor: 'rgb(218, 224, 230)'}}>
-                <Text style={{color: "orange"}}>Siema</Text>
+                <View style={styles.logo}>
+                    <Text>Memer</Text>
+                </View>
+                <View style={styles.mainTop}>
+                </View>
+                <View style={styles.mainBottom}>
+                </View>
             </View>
         );
     }
@@ -34,15 +40,19 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
     logo: {
-
+        flex: 0.1,
+        backgroundColor: "green",
+        justifyContent: 'center',
+        textAlign: 'center'
     },
     mainTop:{
-
+        flex: 0.5,
+        backgroundColor: 'pink',
     },
     mainBottom:{
-
+        flex: 0.4,
+        backgroundColor: 'yellow',
     }
-
 
 });
 
