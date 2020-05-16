@@ -51,12 +51,12 @@ const styles = StyleSheet.create({
     },
     mainTop:{
         flex: 5,
-        height: '100%',
+        minHeight: '100%',
         backgroundColor: '#f0f0f0'
     },
     mainBottom:{
-        flex: 4,
-        height: '100%'
+        flex: 6,
+        minHeight: '60%'
     }
 
 });

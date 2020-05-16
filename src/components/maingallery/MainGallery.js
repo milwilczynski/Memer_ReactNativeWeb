@@ -27,7 +27,8 @@ export default class App extends React.Component {
                     </View>
                     <View style={mainStyles.bottom}>
                         <View style={mainStyles.imageContainer}>
-                            <View style={topStyles.singleImage}><Image style={{height: '200%', width: '100%'}} source={require('./../../resources/temp/2.jpg')}/></View>
+                            <Image style={{height: '200%', width: '100%'}} source={require('./../../resources/temp/2.jpg')}/>
+                            <View style={topStyles.singleImage}></View>
                         </View>
                         <View style={mainStyles.tagsContainer}>
                             <View style={mainStyles.tag}>1</View>
@@ -46,9 +47,7 @@ export default class App extends React.Component {
                     </View>
                     <View style={mainStyles.bottom}>
                         <View style={mainStyles.imageContainer}>
-                            <View style={topStyles.singleImage}>
                                 <Image style={{height: Image.getSize(), flex: 1}} source={require('./../../resources/temp/2.jpg')}/>
-                            </View>
                         </View>
                         <View style={mainStyles.tagsContainer}>
                             <View style={mainStyles.tag}></View>

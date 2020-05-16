@@ -5,6 +5,7 @@ const mainStyles = StyleSheet.create({
         marginLeft: '15%',
         width: '70%',
         minHeight: '100%',
+        backgroundColor: 'pink'
     },
     all:{
         height: '100px'
@@ -13,14 +14,15 @@ const mainStyles = StyleSheet.create({
         flex: 1,
     },
     top:{
-        flex: 0.5,
+        flex: 0.1,
     },
     bottom:{
-        flex: 5,
+        flex: 0.9,
         flexDirection: 'row',
     },
     imageContainer:{
-        flex: 0.7,
+        flex: 0.9,
+        minHeight: '100%'
     },
     tagsContainer:{
         flex: 0.3,
