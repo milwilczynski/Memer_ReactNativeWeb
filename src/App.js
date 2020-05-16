@@ -5,53 +5,58 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    Dimensions
 } from 'react-native';
-
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
+import Menu from './dumb/Menu';
+import TopGallery from "./components/topgallery/TopGallery";
+import MainGallery from "./components/maingallery/MainGallery";
+import { ScrollView } from "react-native";
 
 class App extends React.Component {
     state = {
-        dimensions: {
-            window,
-            screen
-        }
     };
 
     componentDidMount(){
     };
 
     render() {
-        const { dimensions } = this.state;
         return (
-            <View style={{height: dimensions.window.height, width: dimensions.window.width, backgroundColor: 'rgb(218, 224, 230)'}}>
-                <View style={styles.logo}>
-                    <Text>Memer</Text>
+            <View style={{width: '100%', flex: 1}}>
+                <View style={styles.menu}>
+                    <Menu/>
                 </View>
+                <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
                 <View style={styles.mainTop}>
+                    <TopGallery/>
                 </View>
                 <View style={styles.mainBottom}>
+                    <MainGallery/>
+                    <MainGallery/>
+                    <MainGallery/>
+                    <MainGallery/>
                 </View>
+                </ScrollView>
             </View>
         );
     }
 };
 
 const styles = StyleSheet.create({
-    logo: {
-        flex: 0.1,
+    menu: {
+        position: 'flex',
+        width: '100%',
+        zIndex: 1,
         backgroundColor: "green",
         justifyContent: 'center',
         textAlign: 'center'
     },
     mainTop:{
-        flex: 0.5,
-        backgroundColor: 'pink',
+        flex: 5,
+        height: '100%',
+        backgroundColor: '#f0f0f0'
     },
     mainBottom:{
-        flex: 0.4,
-        backgroundColor: 'yellow',
+        flex: 4,
+        height: '100%'
     }
 
 });
