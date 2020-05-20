@@ -2,14 +2,9 @@ import * as React from 'react';
 import {
     StyleSheet,
     View,
-    Text,
-    Image,
-    TouchableOpacity,
 } from 'react-native';
-import Menu from './dumb/Menu';
-import TopGallery from "./components/topgallery/TopGallery";
-import MainGallery from "./components/maingallery/MainGallery";
-import { ScrollView } from "react-native";
+import {Router} from './Router'
+import {Menu} from "./modules/Menu";
 
 class App extends React.Component {
     state = {
@@ -20,27 +15,22 @@ class App extends React.Component {
 
     render() {
         return (
-            <View style={{width: '100%', flex: 1}}>
+            <View style={styles.container}>
                 <View style={styles.menu}>
-                    <Menu/>
+                    <Menu></Menu>
                 </View>
-                <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
-                <View style={styles.mainTop}>
-                    <TopGallery/>
-                </View>
-                <View style={styles.mainBottom}>
-                    <MainGallery/>
-                    <MainGallery/>
-                    <MainGallery/>
-                    <MainGallery/>
-                </View>
-                </ScrollView>
+                <Router></Router>
             </View>
         );
     }
 };
 
 const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
     menu: {
         position: 'flex',
         width: '100%',
@@ -49,17 +39,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center'
     },
-    mainTop:{
-        flex: 5,
-        minHeight: '100%',
-        backgroundColor: '#f0f0f0'
-    },
-    mainBottom:{
-        flex: 6,
-        minHeight: '60%'
-    }
-
 });
-
 export default App;
-

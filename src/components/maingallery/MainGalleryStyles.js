@@ -5,10 +5,6 @@ const mainStyles = StyleSheet.create({
         marginLeft: '15%',
         width: '70%',
         minHeight: '100%',
-        backgroundColor: 'pink'
-    },
-    all:{
-        height: '100px'
     },
     titleContainer:{
         flex: 1,
@@ -32,8 +28,8 @@ const mainStyles = StyleSheet.create({
         flex: 0.25,
         height: '10%',
         margin: '0.8%',
-        backgroundColor: 'orange'
     },
+
 
 });
 export default mainStyles;

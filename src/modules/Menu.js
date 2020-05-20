@@ -5,11 +5,22 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
+import {RouterStoreContext} from "../store/RouterStore";
+import {observer} from "mobx-react-lite";
 
-const Menu = props =>{
+interface Props{
+
+}
+
+export const Menu: React.FC<Props> = observer(() =>{
+    const routerStore = React.useContext(RouterStoreContext)
     return(
         <View style={menuStyles.menu}>
-            <TouchableOpacity style={menuStyles.componentButton}>
+            <TouchableOpacity
+                onPress={() =>{
+                routerStore.screen = 'Home';
+                }}
+                style={menuStyles.componentButton}>
                 <Text style={{color: 'white',
                     fontFamily: 'DM Mono',
                     fontWeight: 'BOLD',
@@ -18,18 +29,35 @@ const Menu = props =>{
                     transform: 'rotate(-5deg)',
                     backgroundColor: '#ffd31d'}}>Gallery!</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={menuStyles.componentButton}>
+
+            <TouchableOpacity
+                onPress={() =>{
+                    routerStore.screen = 'Random';
+                }}
+                style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Random</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={menuStyles.componentButton}>
+
+            <TouchableOpacity
+                onPress={() =>{
+                    routerStore.screen = 'Register';
+                }}
+                style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Register</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={menuStyles.componentButton}>
+
+            <TouchableOpacity
+                onPress={() =>{
+                    routerStore.screen = 'Login';
+                }}
+                style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Log In</Text>
             </TouchableOpacity>
+
         </View>
     )
-}
+});
+
 const menuStyles = StyleSheet.create({
     menu: {
         flexDirection: 'row',
@@ -49,4 +77,4 @@ const menuStyles = StyleSheet.create({
     }
 });
 
-export default Menu;
+

@@ -7,5 +7,6 @@ module.exports = (api) => {
       '@babel/plugin-transform-runtime',
       // '@babel/plugin-proposal-class-properties', // Breaks fast refresh on native for some reason, left here if needed
     ].map(require.resolve),
+
   };
 };
