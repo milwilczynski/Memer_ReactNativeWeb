@@ -3,28 +3,15 @@ import {
     View,
     Image,
 } from 'react-native';
-import mainStyles from './MainGalleryStyles';
+import mainStyles from './Styles';
 import Card from 'react-bootstrap/Card'
-/*
- <View style={mainStyles.container}>
-                    <View style={mainStyles.top}>
-                        <View style={mainStyles.title}>Nazwa obrazka</View>
-                    </View>
-                    <View style={mainStyles.bottom}>
-                        <View style={mainStyles.imageContainer}>
-                                <Image style={{height: Image.getSize(), flex: 1}} source={require('./../../resources/temp/2.jpg')}/>
-                        </View>
-                        <View style={mainStyles.tagsContainer}>
-                            <View style={mainStyles.tag}></View>
-                            <View style={mainStyles.tag}></View>
-                            <View style={mainStyles.tag}></View>
-                            <View style={mainStyles.tag}></View>
-                        </View>
-                    </View>
-</View>
- */
+import {Text} from "react-native-web";
 
 export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
 
     render() {
         return (
@@ -34,17 +21,17 @@ export default class App extends React.Component {
                     <View style={mainStyles.top}>
                         <Card.Header>Header</Card.Header>
                     </View>
-                        <View style={mainStyles.bottom}>
-                            <View style={mainStyles.imageContainer}>
-                               <Image style={{height: '100%', flex: 1}} source={require('./../../resources/temp/2.jpg')} rounded />
-                            </View>
-                            <View style={mainStyles.tagsContainer}>
-                                <View style={mainStyles.tag}>1</View>
-                                <View style={mainStyles.tag}>2</View>
-                                <View style={mainStyles.tag}>3</View>
-                                <View style={mainStyles.tag}>4</View>
-                            </View>
+                    <View style={mainStyles.bottom}>
+                        <View style={mainStyles.imageContainer}>
+                            <Image style={{height: '100%', flex: 1}} source={require('./../../resources/temp/2.jpg')} rounded />
                         </View>
+                        <View style={mainStyles.tagsContainer}>
+                            <View style={mainStyles.tag}><Text>2</Text></View>
+                            <View style={mainStyles.tag}><Text>2</Text></View>
+                            <View style={mainStyles.tag}><Text>2</Text></View>
+                            <View style={mainStyles.tag}><Text>2</Text></View>
+                        </View>
+                    </View>
                 </Card>
             </View>
         )

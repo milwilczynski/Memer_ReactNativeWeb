@@ -5,15 +5,17 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import {RouterStoreContext} from "../store/RouterStore";
+import {RouterStoreContext} from "../../store/RouterStore";
 import {observer} from "mobx-react-lite";
 
 interface Props{
 
 }
 
-export const Menu: React.FC<Props> = observer(() =>{
-    const routerStore = React.useContext(RouterStoreContext)
+
+export const Menu: React.FC<Props> = observer((props) =>{
+    const routerStore = React.useContext(RouterStoreContext);
+
     return(
         <View style={menuStyles.menu}>
             <TouchableOpacity

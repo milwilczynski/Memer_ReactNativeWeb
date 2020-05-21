@@ -1,12 +1,13 @@
 import {useContext} from "react";
-import {RouterStoreContext} from "./store/RouterStore";
-import  {Home}  from './modules/Home';
-import  {Login}   from './modules/Login';
-import {Register} from './modules/Register'
 import * as React from "react";
 import {observer} from "mobx-react-lite";
+import {RouterStoreContext} from "./store/RouterStore";
+import  {Home}  from './modules/Home';
+import  {Login}   from './modules/dumb/Login';
+import {Register} from './modules/dumb/Register'
+import {Random} from "./modules/dumb/Random";
 import {ErrorNoPageFound} from "./modules/errors/ErrorNoPageFound";
-import {Random} from "./modules/Random";
+
 
 export const Router = observer(() => {
     const routerStore = useContext(RouterStoreContext);

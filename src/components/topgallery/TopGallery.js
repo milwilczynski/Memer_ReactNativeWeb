@@ -3,23 +3,15 @@ import {
     View,
     Text
 } from 'react-native';
-import topStyles from './TopGalleryStyles';
+import topStyles from './Styles';
 import Card from "react-bootstrap/Card";
-//<Image style={{height: '100%', width: '100%'}} source={require('./../../resources/temp/1.jpg')}/>
-/*
-
-                <Card style={{ width: '100%', height:'100%'}}>
-                    <Image style={{height: '90%', width: '95%', marginTop: '2.5%', marginLeft: '2.5%'}} source={require('./../../resources/temp/1.jpg')}/>
-                    <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
-                    </Card.Body>
-                </Card>
- */
-const TopGallery = props =>{
+const TopGallery = props => {
+    console.log(props);
+    var url = "http://localhost:8080/upload/static/";
     let card =
     (
             <Card style={{ width: '100%', height:'100%'}} className="text-white ">
-                <Card.Img style={{height: '85%', width: '98%', margin: '1%'}} src="https://cdn.fstoppers.com/styles/large-16-9/s3/lead/2019/07/8d9c9babe721852b37ea146a8c37157a.jpg" alt="Card image" />
+                <Card.Img style={{height: '85%', width: '98%', margin: '1%'}} src={url} alt="Card image" />
                 <Card.ImgOverlay style={{height: '100%', width: '100%',}}>
                         <View style={{width: '100%', height: '30px', backgroundColor: '#black', opacity: '60%', borderRadius: '2%'}}>
                             <Text style={{color: 'white', fontSize: '24px'}}>Obrazek pienkny jak obrazka</Text>

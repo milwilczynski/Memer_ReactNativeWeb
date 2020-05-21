@@ -1332,6 +1332,13 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.4.0.tgz#0e1bdf8d021e7ea58affade33d9d607e11365915"
   integrity sha512-NMrDy6EWh9TPdSRiHmHH2ye1v5U0gBD7pRYwSwJvomx7Bm4GG04vu63dYiVzebLOx2obPpJugew06xVP0Nk7hA==
 
+"@react-native-community/async-storage@^1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.10.3.tgz#6974404a903a317f462bd0ac3fafa7c0291679df"
+  integrity sha512-f3G3dX5aoFZZC1G7alnaFmlTpXn8HPfpR8H3Hf7wbbQrQvZmW7mW2fXHv/oj99FNPd228bneL3GOnjGe2Epkww==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
