@@ -3,9 +3,13 @@ import Store from './modules/auth/Store';
 import {
     StyleSheet,
     View,
+    TouchableOpacity,
+    Text
 } from 'react-native';
-import {Router} from './Router'
+import {Routes} from './Routes'
 import {Menu} from "./modules/dumb/Menu";
+import {history} from './store/history';
+
 
 class App extends React.Component {
     constructor() {
@@ -15,29 +19,14 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount(){
-        /*
-        var data = Store._retrieveData();
-        console.log(data);
-        if(data){
-            this.setState = {
-                isLoggedIn: true
-            }
-        }else{
-            this.setState = {
-                isLoggedIn: false
-            }
-        }
-         */
-    };
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.menu}>
-                    <Menu>{this.state.isLoggedIn}</Menu>
+                    <Menu>{history}</Menu>
                 </View>
-                <Router></Router>
+                <Routes></Routes>
             </View>
         );
     }

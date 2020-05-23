@@ -5,14 +5,14 @@ export class Store {
 
     static _storeData = async(data) =>{
         try {
-            await AsyncStorage.setItem('@ItsPropably', data.token);
+            await AsyncStorage.setItem('@Token', data.token);
         } catch (error) {
             console.log(error);
         }
     };
     static _retrieveData = async () => {
         try {
-            const value = await AsyncStorage.getItem('@ItsPropably');
+            const value = await AsyncStorage.getItem('@Token');
             if (value !== null) {
                 console.log(value);
             }

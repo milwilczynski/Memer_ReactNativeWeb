@@ -18,6 +18,9 @@ class RegisterComponent extends React.Component {
             email: ''
         }
     }
+    componentDidMount() {
+        console.log("RegisterComponent");
+    }
 
     submit() {
         fetch('http://localhost:8080/register', {

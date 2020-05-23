@@ -3,23 +3,22 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import TopGallery from './../components/topgallery/TopGallery';
+import TopGallery from '../components/topgallery/TopGallery';
 import MainGallery from './../components/maingallery/MainGallery';
 import {ScrollView} from "react-native-web";
 import {observer} from "mobx-react-lite";
-
-
 interface Props{
 
 }
 
-export const Home: React.FC<Props> = observer(() => {
+export const Home: React.FC<Props> = observer((props) => {
+  
         return (
             <View style={{width: '100%', flex: 1}}>
                 <View style={{width: '100%', flex: 1}}>
                     <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
                         <View style={styles.mainTop}>
-                            <TopGallery/>
+                            <TopGallery>{props}</TopGallery>
                         </View>
                         <View style={styles.mainBottom}>
                             <MainGallery/>
@@ -31,6 +30,7 @@ export const Home: React.FC<Props> = observer(() => {
                 </View>
             </View>
         );
+
 });
 const styles = StyleSheet.create({
     mainTop:{

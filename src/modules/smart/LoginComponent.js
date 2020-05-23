@@ -18,7 +18,9 @@ class LoginComponent extends React.Component {
             password: ''
         }
     }
-
+    componentDidMount() {
+        console.log("LoginComponent");
+    }
     submit() {
         fetch('http://localhost:8080/login', {
             method: 'POST',

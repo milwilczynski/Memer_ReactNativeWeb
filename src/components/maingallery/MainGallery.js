@@ -12,6 +12,9 @@ export default class App extends React.Component {
         super(props);
         this.state = {};
     }
+    componentDidMount() {
+        console.log("MainGallery");
+    }
 
     render() {
         return (

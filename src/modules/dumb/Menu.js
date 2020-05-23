@@ -5,22 +5,19 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import {RouterStoreContext} from "../../store/RouterStore";
 import {observer} from "mobx-react-lite";
-
-interface Props{
+interface Props {
 
 }
 
 
 export const Menu: React.FC<Props> = observer((props) =>{
-    const routerStore = React.useContext(RouterStoreContext);
 
     return(
         <View style={menuStyles.menu}>
             <TouchableOpacity
                 onPress={() =>{
-                routerStore.screen = 'Home';
+                    props.children.push("/");
                 }}
                 style={menuStyles.componentButton}>
                 <Text style={{color: 'white',
@@ -34,7 +31,7 @@ export const Menu: React.FC<Props> = observer((props) =>{
 
             <TouchableOpacity
                 onPress={() =>{
-                    routerStore.screen = 'Random';
+                    props.children.push("/random");
                 }}
                 style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Random</Text>
@@ -42,7 +39,7 @@ export const Menu: React.FC<Props> = observer((props) =>{
 
             <TouchableOpacity
                 onPress={() =>{
-                    routerStore.screen = 'Register';
+                    props.children.push("/register");
                 }}
                 style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Register</Text>
@@ -50,7 +47,7 @@ export const Menu: React.FC<Props> = observer((props) =>{
 
             <TouchableOpacity
                 onPress={() =>{
-                    routerStore.screen = 'Login';
+                    props.children.push("/login");
                 }}
                 style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Log In</Text>
