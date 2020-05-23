@@ -12,7 +12,7 @@ interface Props{
 }
 
 export const Home: React.FC<Props> = observer((props) => {
-  
+
         return (
             <View style={{width: '100%', flex: 1}}>
                 <View style={{width: '100%', flex: 1}}>
