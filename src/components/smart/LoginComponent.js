@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Text
 } from 'react-native';
-import Store  from './../auth/Store';
+import Store  from '../../modules/auth/Store';
 import Button from "react-bootstrap/Button";
 import TextInput from "react-native-web/dist/exports/TextInput";
 
@@ -21,8 +21,8 @@ class LoginComponent extends React.Component {
     componentDidMount() {
         console.log("LoginComponent");
     }
-    submit() {
-        fetch('http://localhost:8080/login', {
+    async submit() {
+        await fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -35,7 +35,7 @@ class LoginComponent extends React.Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                Store._storeData(responseData);
+                 Store._storeData(responseData);
             })
 
     }

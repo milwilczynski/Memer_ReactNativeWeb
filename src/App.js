@@ -1,13 +1,10 @@
 import * as React from 'react';
-import Store from './modules/auth/Store';
 import {
     StyleSheet,
     View,
-    TouchableOpacity,
-    Text
 } from 'react-native';
 import {Routes} from './Routes'
-import {Menu} from "./modules/dumb/Menu";
+import {Menu} from "./components/dumb/Menu";
 import {history} from './store/history';
 
 

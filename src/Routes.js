@@ -1,9 +1,9 @@
 
 import * as React from "react";
 import  {Home}  from './modules/Home';
-import  {Login}   from './modules/dumb/Login';
-import {Register} from './modules/dumb/Register'
-import {Random} from "./modules/dumb/Random";
+import  {Login}   from './components/dumb/Login';
+import {Register} from './components/dumb/Register'
+import Random from "./components/smart/Random";
 import { Router, Switch, Route } from './router';
 import {history} from './store/history';
 

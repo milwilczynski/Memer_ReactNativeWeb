@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
 import {observer} from "mobx-react-lite";
-import RegisterComponent from "./../smart/RegisterComponent"
+import RegisterComponent from "../smart/RegisterComponent"
 interface Props {
 
 }

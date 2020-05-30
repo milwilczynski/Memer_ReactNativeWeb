@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import {observer} from "mobx-react-lite";
-import LoginComponent from "./../smart/LoginComponent";
+import LoginComponent from "../smart/LoginComponent";
 
 interface Props{
 

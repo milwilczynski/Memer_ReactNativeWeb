@@ -14,7 +14,6 @@ export class Store {
         try {
             const value = await AsyncStorage.getItem('@Token');
             if (value !== null) {
-                console.log(value);
             }
         } catch (error) {
             console.log(error);
