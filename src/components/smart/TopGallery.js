@@ -3,20 +3,36 @@ import {Store} from "../../modules/auth/Store";
 import Card from "react-bootstrap/Card";
 import {StyleSheet, Text, View} from "react-native";
 import Zoom from "react-medium-image-zoom";
+import {TouchableOpacity} from "react-native-web";
+import Score from './Score';
 
 class TopGallery extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            images: []
+            images: [],
+            token: ''
         }
 
     }
 
     componentDidMount() {
         console.log("TopGalleryComp");
+        this._getToken().then();
         this.submit()
     }
+
+    _getToken = async () => {
+        try {
+            this.setState({
+                token: await Store._retrieveData().then(response => {
+                    return response;
+                }),
+            });
+        } catch (err) {
+            //
+        }
+    };
 
     submit() {
         fetch('http://localhost:8080/page', {
@@ -24,7 +40,6 @@ class TopGallery extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": "Bearer " + Store._retrieveData()
             }
         })
             .then((response) => response.json())
@@ -41,6 +56,8 @@ class TopGallery extends React.Component {
             });
     }
 
+
+
     render() {
         let cards = [];
         this.state.images.forEach(imageParam => {
@@ -53,24 +70,32 @@ class TopGallery extends React.Component {
                     borderWidth: '1px',
                     borderColor: '#ffd31d'
                 }}>
-                    <Card.Body>
+                    <Card.Body style={{borderRadius: '5%'}}>
                         <Card.Img
                             style={{width: '100%', height: "95%", borderRadius: '1%'}}
                             variant="bottom"
                             src={
                                 'http://localhost:8080/upload/static/images/' + imageParam.name
                             }/>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                marginLeft: '1%',
-                            }}>
-                            <Text style={{fontSize: '110%', color: 'grey'}}>
-                                {imageParam.title}
-                            </Text>
-
+                        <View style={{flexDirection: 'row'}}>
+                            <View
+                                style={{
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginLeft: '1%',
+                                }}>
+                                <Text style={{fontSize: '110%', color: 'grey'}}>
+                                    {imageParam.title}
+                                </Text>
+                            </View>
+                            <View>
+                            <Score
+                                name = {imageParam.name}
+                                token = {this.state.token}
+                                score = {imageParam.points}
+                            />
+                            </View>
                         </View>
                     </Card.Body>
                 </Card>
@@ -96,7 +121,7 @@ class TopGallery extends React.Component {
 
 export default TopGallery;
 const topStyles = StyleSheet.create({
-    container:{
+    container: {
         marginLeft: '2.5%',
         width: '95%',
         flex: 0.95,
@@ -104,25 +129,25 @@ const topStyles = StyleSheet.create({
         height: '100%',
         flexDirection: 'row',
     },
-    mainImage:{
+    mainImage: {
         flex: 0.4,
         marginRight: '0.25%',
-        zIndex:2
+        zIndex: 2
     },
-    restImage:{
+    restImage: {
         flex: 0.6,
     },
-    restImageRow:{
+    restImageRow: {
         flex: 1,
         flexDirection: 'row',
-        zIndex:2
+        zIndex: 2
     },
-    singleImage:{
+    singleImage: {
         flex: 0.5,
         margin: '0.15%',
-        zIndex:2
+        zIndex: 2
     },
-    splitter:{
+    splitter: {
         height: '30%',
         width: '100%',
         backgroundColor: '#ffd31d',

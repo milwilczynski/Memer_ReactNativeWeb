@@ -77,11 +77,13 @@ export default class App extends React.Component {
         let images = await this.submit();
         try {
             let cards = [];
-            let index = 0;
             images.forEach(imageParam => {
-                ++index;
+                let tags = [];
+                imageParam.tags.forEach(tag => {
+                    tags.push(<View key={imageParam.name + tag} style={mainStyles.tag}><Text style={{}}>{tag}</Text></View>)
+                })
                 cards.push(
-                    <View key={index} border="light" style={{
+                    <View key={imageParam.name} border="light" style={{
                         minHeight:'100%'
                     }}>
                         <View style={mainStyles.top}>
@@ -93,10 +95,7 @@ export default class App extends React.Component {
                                        source={'http://localhost:8080/upload/static/images/' + imageParam.name}/>
                             </View>
                             <View style={mainStyles.tagsContainer}>
-                                <View style={mainStyles.tag}><Text style={{}}>Funny</Text></View>
-                                <View style={mainStyles.tag}><Text>Historical</Text></View>
-                                <View style={mainStyles.tag}><Text>Mango</Text></View>
-                                <View style={mainStyles.tag}><Text>Animo</Text></View>
+                                {tags}
                             </View>
                         </View>
                     </View>
