@@ -1,28 +1,17 @@
 import * as React from 'react';
-import {
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    Text
-} from 'react-native';
-import Button from "react-bootstrap/Button";
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useState} from "react";
 import TextInput from "react-native-web/dist/exports/TextInput";
+import Button from "react-bootstrap/Button";
 
-class RegisterComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            login: '',
-            password: '',
-            repassword: '',
-            email: ''
-        }
-    }
-    componentDidMount() {
-        console.log("RegisterComponent");
-    }
+export function Register() {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
+    const [email, setEmail] = useState('');
 
-    submit() {
+
+    async function submit() {
         fetch('http://localhost:8080/register', {
             method: 'POST',
             headers: {
@@ -30,63 +19,85 @@ class RegisterComponent extends React.Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userName:  this.state.login,
-                userPassword: this.state.password,
-                email: this.state.email
+                userName: login,
+                userPassword: password,
+                email: email,
             })
-        }).then(function response(response){
-            console.log(response);
-        });
-
+        }).then(response => {
+            console.log(response.status)
+            if (response.status == 201) {
+                console.log('udalo sie');
+            } else {
+                console.log('no trudno');
+            }
+        })
     }
 
-    render() {
-        return (
+    return (
+        <View style={{
+            width: '100%',
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+        }}>
+            <Text style={{
+                color: 'white',
+                fontFamily: 'DM Mono',
+                fontWeight: 'BOLD',
+                fontStyle: 'italic',
+                fontSize: '65px',
+                transform: 'rotate(-5deg)',
+                marginBottom: '2%',
+                backgroundColor: '#ffd31d'
+            }}
+            >
+                Gallery!
+            </Text>
             <View style={styles.formContainer}>
                 <Text>Email</Text>
                 <TextInput
                     style={styles.singleForm}
                     onChangeText={(text) => {
-                        this.setState({email: text})
+                        setEmail(text);
                     }}
                 />
                 <Text>Username</Text>
                 <TextInput
                     style={styles.singleForm}
                     onChangeText={(text) => {
-                        this.setState({login: text})
+                        setLogin(text);
                     }}
                 />
                 <Text>Password</Text>
                 <TextInput
                     style={styles.singleForm}
                     onChangeText={(text) => {
-                        this.setState({password: text})
+                        setPassword(text);
                     }}
                 />
                 <Text>Re-Password</Text>
                 <TextInput
                     style={styles.singleForm}
                     onChangeText={(text) => {
-                        this.setState({repassword: text})
+                        setRePassword(text);
                     }}
                 />
-                <TouchableOpacity  onPress={()=>this.submit()}>
+                <TouchableOpacity onPress={() => submit()}>
                     <Button
                         style={{
                             color: 'white',
                             backgroundColor: '#ffd31d',
                             fontWeight: 'bold',
                             width: '50%',
-                            marginLeft:'25%'
+                            marginLeft: '25%'
                         }} variant="warning">Register</Button>
                 </TouchableOpacity>
             </View>
-        );
-    }
+        </View>
+    )
 };
 const styles = StyleSheet.create({
-    formContainer:{
+    formContainer: {
         width: '30%',
         flex: 0.5,
         borderRadius: "2%",
@@ -96,7 +107,7 @@ const styles = StyleSheet.create({
         padding: '1%',
         justifyContent: 'space-between'
     },
-    singleForm:{
+    singleForm: {
         flex: 0.2,
         borderRadius: '2%',
         borderColor: '#ffd31d',
@@ -105,4 +116,4 @@ const styles = StyleSheet.create({
 
     }
 });
-export default RegisterComponent;
+

@@ -1,50 +1,46 @@
 import * as React from 'react';
+import {useState} from 'react';
 import {Text, View} from "react-native";
 import {TouchableOpacity} from "react-native-web";
 
-class Score extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            token: props.token,
-            name: props.name,
-            score: props.score
-        }
-    }
+export function Score(props) {
+    const token = props.token;
+    const name = props.name;
+    const [score, setScore] = useState(props.score);
 
-    setScoreFun = async() => {
-        try {
-            return await fetch('http://localhost:8080/score?imageName=' + this.state.name, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    "Authorization": "Bearer " + this.state.token
-                }
-            })
-                .then((response) => response.headers)
-                .then((responseData) => responseData.get('actualScore'))
-                .then(responseData => {
-                        this.setState({
-                            score: responseData
-                        })
+    function setScoreFun() {
+        if (token != '') {
+            try {
+                fetch('http://localhost:8080/score?imageName=' + name, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + token
                     }
-                )
-        } catch (err) {
-            console.log(err);
+                })
+                    .then((response) => response.headers)
+                    .then((responseData) => responseData.get('actualScore'))
+                    .then(responseData => {
+                            setScore(responseData);
+                        }
+                    )
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 
-    render(){
-        return(
-            <View>
-                <TouchableOpacity onPress={() => this.setScoreFun()}>
-                    <Text>{this.state.score}</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
+
+    return (
+        <View>
+            <TouchableOpacity onPress={() => setScoreFun()}>
+                <Text>{score}</Text>
+            </TouchableOpacity>
+        </View>
+    )
 
 
 }
+
 export default Score;

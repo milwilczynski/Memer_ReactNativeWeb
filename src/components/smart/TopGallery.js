@@ -1,40 +1,14 @@
 import * as React from 'react';
-import {Store} from "../../modules/auth/Store";
+import {useEffect, useState} from 'react';
 import Card from "react-bootstrap/Card";
 import {StyleSheet, Text, View} from "react-native";
-import Zoom from "react-medium-image-zoom";
-import {TouchableOpacity} from "react-native-web";
 import Score from './Score';
 
-class TopGallery extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            images: [],
-            token: ''
-        }
+export function TopGallery(props) {
+    const token = props.token;
+    const [posts, setPosts] = useState([]);
 
-    }
-
-    componentDidMount() {
-        console.log("TopGalleryComp");
-        this._getToken().then();
-        this.submit()
-    }
-
-    _getToken = async () => {
-        try {
-            this.setState({
-                token: await Store._retrieveData().then(response => {
-                    return response;
-                }),
-            });
-        } catch (err) {
-            //
-        }
-    };
-
-    submit() {
+    useEffect(() => {
         fetch('http://localhost:8080/page', {
             method: 'GET',
             headers: {
@@ -50,73 +24,75 @@ class TopGallery extends React.Component {
                         arrays.push(image);
                     }
                 )
-                this.setState({
-                    images: arrays
-                })
+                return arrays;
+            })
+            .then(response => _renderTopGallery(response));
+    }, [])
+
+    async function _renderTopGallery(images) {
+        try {
+            let cards = [];
+            images.forEach(imageParam => {
+                cards.push(
+                    <Card style={{
+                        width: '100%',
+                        height: '100%',
+                        borderStyle: 'solid',
+                        borderWidth: '1px',
+                        borderColor: '#ffd31d'
+                    }}>
+                        <Card.Body style={{borderRadius: '5%'}}>
+                            <Card.Img
+                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
+                                variant="bottom"
+                                src={
+                                    'http://localhost:8080/upload/static/images/' + imageParam.name
+                                }/>
+                            <View style={{flexDirection: 'row'}}>
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        marginLeft: '1%',
+                                    }}>
+                                    <Text style={{fontSize: '110%', color: 'grey'}}>
+                                        {imageParam.title}
+                                    </Text>
+                                </View>
+                                <View>
+                                    <Score
+                                        name={imageParam.name}
+                                        token={token}
+                                        score={imageParam.points}
+                                    />
+                                </View>
+                            </View>
+                        </Card.Body>
+                    </Card>
+                );
             });
+            setPosts(cards);
+        } catch (err) {
+            //
+        }
     }
 
-
-
-    render() {
-        let cards = [];
-        this.state.images.forEach(imageParam => {
-            let url = 'http://localhost:8080/upload/static/images/' + imageParam.name;
-            cards.push(
-                <Card style={{
-                    width: '100%',
-                    height: '100%',
-                    borderStyle: 'solid',
-                    borderWidth: '1px',
-                    borderColor: '#ffd31d'
-                }}>
-                    <Card.Body style={{borderRadius: '5%'}}>
-                        <Card.Img
-                            style={{width: '100%', height: "95%", borderRadius: '1%'}}
-                            variant="bottom"
-                            src={
-                                'http://localhost:8080/upload/static/images/' + imageParam.name
-                            }/>
-                        <View style={{flexDirection: 'row'}}>
-                            <View
-                                style={{
-                                    flex: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginLeft: '1%',
-                                }}>
-                                <Text style={{fontSize: '110%', color: 'grey'}}>
-                                    {imageParam.title}
-                                </Text>
-                            </View>
-                            <View>
-                            <Score
-                                name = {imageParam.name}
-                                token = {this.state.token}
-                                score = {imageParam.points}
-                            />
-                            </View>
-                        </View>
-                    </Card.Body>
-                </Card>
-            );
-        });
-        return (
-            <View style={topStyles.container}>
-                <View style={topStyles.mainImage}>{cards[0]}</View>
-                <View style={topStyles.restImage}>
-                    <View style={topStyles.restImageRow}>
-                        <View style={topStyles.singleImage}>{cards[1]}</View>
-                        <View style={topStyles.singleImage}>{cards[2]}</View>
-                    </View>
-                    <View style={topStyles.restImageRow}>
-                        <View style={topStyles.singleImage}>{cards[3]}</View>
-                        <View style={topStyles.singleImage}>{cards[4]}</View>
-                    </View>
+    return (
+        <View style={topStyles.container}>
+            <View style={topStyles.mainImage}>{posts[0]}</View>
+            <View style={topStyles.restImage}>
+                <View style={topStyles.restImageRow}>
+                    <View style={topStyles.singleImage}>{posts[1]}</View>
+                    <View style={topStyles.singleImage}>{posts[2]}</View>
+                </View>
+                <View style={topStyles.restImageRow}>
+                    <View style={topStyles.singleImage}>{posts[3]}</View>
+                    <View style={topStyles.singleImage}>{posts[4]}</View>
                 </View>
             </View>
-        );
-    }
+        </View>
+    );
 };
 
 export default TopGallery;

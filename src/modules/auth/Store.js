@@ -23,7 +23,10 @@ export class Store {
 
     static _clearData = async () =>{
         try{
-            await AsyncStorage._clearData();
+            const value = await AsyncStorage.removeItem('@Token');
+            if(value === null){
+                return value;
+            }
         }catch(error){
             console.log(error);
         }

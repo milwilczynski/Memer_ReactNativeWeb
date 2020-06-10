@@ -7,34 +7,44 @@ import {Text} from "react-native-web";
 import {Store} from "../../modules/auth/Store";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
-export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            images: [],
-            page: 1,
-            lastPageIndex: 0,
-            posts: []
-        }
+import {useEffect, useState} from 'react';
 
-    }
+export function MainGallery(props){
+    const [page, setPage] = useState(1);
+    const [lastPage, setLastPage] = useState(0);
+    const [posts, setPosts] = useState([]);
 
-    async componentDidMount() {
-        await this.checkLastPageOnServer();
-        this.setState({
-            posts: await this.renderPosts()
+
+    useEffect(() => {
+        fetch('http://localhost:8080/page?page=' + page, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
         })
-    }
+            .then((response) => response.json())
+            .then((responseData) => {
+                let arrays = [];
+                responseData.forEach(
+                    (image) => {
+                        arrays.push(image);
+                    }
+                )
+                return arrays;
+            })
+            .then(response => _renderMainGallery(response));
+    }, [])
 
 
-    checkLastPageOnServer = async () => {
+    /*
+    function checkLastPageOnServer(){
         try {
-           return await fetch('http://localhost:8080/numberLastPage', {
+           fetch('http://localhost:8080/numberLastPage', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    "Authorization": "Bearer " + await Store._retrieveData()
+                    'Content-Type': 'application/json'
                 }
             })
                 .then((response) => response.json())
@@ -44,37 +54,12 @@ export default class App extends React.Component {
                     })
                 });
         } catch (err) {
-            console.log(err);
+           console.log(err);
         }
     }
+    */
 
-    submit = async () => {
-        try {
-          return await fetch('http://localhost:8080/page?page=' + this.state.page, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    "Authorization": "Bearer " + await Store._retrieveData()
-                }
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    let arrays = [];
-                    responseData.forEach(
-                        (image) => {
-                            arrays.push(image);
-                        }
-                    )
-                    return arrays;
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    renderPosts = async () =>{
-        let images = await this.submit();
+    async function _renderMainGallery(images){
         try {
             let cards = [];
             images.forEach(imageParam => {
@@ -101,22 +86,22 @@ export default class App extends React.Component {
                     </View>
                 );
             });
-            return cards;
+            setPosts(cards);
         }catch(err){
             console.log(err);
         }
     }
 
-    render() {
-        console.log(this.state.posts);
+
         return (
             <View style={mainStyles.container}>
-                {this.state.posts}
+                {posts}
             </View>
         );
-    }
+
 }
 
+export default MainGallery;
 
 const
     mainStyles = StyleSheet.create({

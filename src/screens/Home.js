@@ -6,29 +6,27 @@ import {
 import TopGallery from '../components/smart/TopGallery';
 import MainGallery from '../components/smart/MainGallery';
 import {ScrollView} from "react-native-web";
-import {observer} from "mobx-react-lite";
-interface Props{
+import {useContext} from "react";
+import {UserContext} from "../modules/auth/UserContext";
 
-}
-
-export const Home: React.FC<Props> = observer((props) => {
-
+export function Home(){
+    const {user} = useContext(UserContext);
         return (
             <View style={{width: '100%', flex: 1}}>
                 <View style={{width: '100%', flex: 1}}>
                     <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
                         <View style={styles.mainTop}>
-                            <TopGallery>{props}</TopGallery>
+                            <TopGallery token={user}/>
                         </View>
                         <View style={styles.mainBottom}>
-                            <MainGallery/>
+                            <MainGallery token={user}/>
                         </View>
                     </ScrollView>
                 </View>
             </View>
         );
+};
 
-});
 const styles = StyleSheet.create({
     mainTop:{
         flex: 1,
