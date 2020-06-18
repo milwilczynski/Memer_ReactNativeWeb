@@ -5,8 +5,6 @@ import {
 } from 'react-native';
 import {Text} from "react-native-web";
 import {Store} from "../../modules/auth/Store";
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
 import {useEffect, useState} from 'react';
 
 export function MainGallery(props){
@@ -36,29 +34,6 @@ export function MainGallery(props){
             .then(response => _renderMainGallery(response));
     }, [])
 
-
-    /*
-    function checkLastPageOnServer(){
-        try {
-           fetch('http://localhost:8080/numberLastPage', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    this.setState({
-                        lastPageIndex: responseData
-                    })
-                });
-        } catch (err) {
-           console.log(err);
-        }
-    }
-    */
-
     async function _renderMainGallery(images){
         try {
             let cards = [];
@@ -69,7 +44,7 @@ export function MainGallery(props){
                 })
                 cards.push(
                     <View key={imageParam.name} border="light" style={{
-                        minHeight:'100%'
+                        minHeight:'60%', marginTop:'3%'
                     }}>
                         <View style={mainStyles.top}>
                             <Text>{imageParam.title}</Text>
@@ -91,25 +66,21 @@ export function MainGallery(props){
             console.log(err);
         }
     }
-
-
-        return (
-            <View style={mainStyles.container}>
+    return (
+         <View style={mainStyles.container}>
                 {posts}
-            </View>
-        );
+         </View>
+    );
 
 }
-
 export default MainGallery;
-
 const
     mainStyles = StyleSheet.create({
         container: {
             flex: 1,
-            marginLeft: '15%',
-            width: '70%',
-            minHeight: '100%',
+            marginLeft: '20%',
+            width: '60%',
+            minHeight: '100%'
         },
         titleContainer: {
             flex: 1,
@@ -148,6 +119,4 @@ const
             justifyContent: 'center',
             alignItems: 'center',
         },
-
-
     });

@@ -6,10 +6,12 @@ import Random from "./screens/Random";
 import {Router, Switch, Route} from './router';
 import {history} from './store/history';
 import {UserContext} from "./modules/auth/UserContext";
-import {useState, useMemo, useEffect} from 'react';
+import {useState, useMemo} from 'react';
 import {Menu} from "./components/smart/Menu";
 import {StyleSheet, View} from "react-native";
 import PrivateRoutes from "./modules/auth/PrivateRoutes";
+import {Search} from "./screens/Search";
+import {AddPicture} from "./screens/AddPicture";
 
 export const Routes = () => {
     const [user, setUser] = useState('');
@@ -25,6 +27,8 @@ export const Routes = () => {
                     <Route exact path='/login' component={Login}/>
                     <Route exact path='/register' component={Register}/>
                     <PrivateRoutes exact path='/random' component={Random}/>
+                    <PrivateRoutes exact path='/addpicture' component={AddPicture}/>
+                    <Route exact path='/search' component={Search}/>
                 </Switch>
             </UserContext.Provider>
         </Router>

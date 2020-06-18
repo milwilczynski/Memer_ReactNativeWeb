@@ -96,6 +96,7 @@ export function TopGallery(props) {
 };
 
 export default TopGallery;
+
 const topStyles = StyleSheet.create({
     container: {
         marginLeft: '2.5%',

@@ -39,16 +39,7 @@ export function Menu() {
         toRender.push(
             <TouchableOpacity
                 onPress={() => {
-                    history.push('/');
-                }}
-                style={menuStyles.componentButton}>
-                <Text style={menuStyles.componentText}>Search</Text>
-            </TouchableOpacity>
-        )
-        toRender.push(
-            <TouchableOpacity
-                onPress={() => {
-                    history.push('/');
+                    history.push('/addpicture');
                 }}
                 style={menuStyles.componentButton}>
                 <Text style={menuStyles.componentText}>Add Picture</Text>
@@ -81,6 +72,13 @@ export function Menu() {
                     transform: 'rotate(-5deg)',
                     backgroundColor: '#ffd31d'
                 }}>Gallery!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    history.push('/search');
+                }}
+                style={menuStyles.componentButton}>
+                <Text style={menuStyles.componentText}>Search</Text>
             </TouchableOpacity>
             {toRender}
         </View>
