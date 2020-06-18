@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import Card from "react-bootstrap/Card";
+
 import {StyleSheet, Text, View} from "react-native";
 import Score from './Score';
 

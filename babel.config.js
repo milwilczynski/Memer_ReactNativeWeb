@@ -3,7 +3,11 @@ module.exports = function (api) {
   return {
     presets: ['module:metro-react-native-babel-preset', '@babel/preset-env', '@babel/preset-react'],
     plugins: [
-      ["@babel/plugin-proposal-class-properties", { "loose": true }]
+      [
+          require("@babel/plugin-proposal-class-properties"), { loose: false }
+      ],
+        ["@babel/plugin-syntax-class-properties"],
+
     ],
   };
 };

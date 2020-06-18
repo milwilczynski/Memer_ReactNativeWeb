@@ -1,20 +1,23 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Button from "react-bootstrap/Button";
 import {ScrollView} from "react-native-web";
+import {UserContext} from "../modules/auth/UserContext";
+import Score from "../components/smart/Score";
 
 export function Search() {
+    const {user} = useContext(UserContext);
     const [posts, setPosts] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [chosen, setChosen] = useState(true);
 
     function submit() {
         let para = '';
-        if (chosen == true) {
+        if (chosen === true) {
             para = 'findByTag?tagEnum=' + inputValue;
         }
-        if (chosen == false) {
+        if (chosen === false) {
             para = 'getByTitle?title=' + inputValue;
         }
         fetch('http://localhost:8080/' + para, {
@@ -38,7 +41,7 @@ export function Search() {
     }
 
     function changeInputValue(byWhat) {
-        if (byWhat == 'findByTag') {
+        if (byWhat === 'findByTag') {
             setChosen(true);
         } else {
             setChosen(false)
@@ -62,6 +65,11 @@ export function Search() {
                                        style={{height: '100%', marginRight: '5px', borderRadius: '1%'}}
                                        source={'http://localhost:8080/upload/static/images/' + imageParam.name}/>
                             </View>
+                            <Score
+                                name={imageParam.name}
+                                token={user}
+                                score={imageParam.points}
+                            />
                         </View>
                     </View>
                 );

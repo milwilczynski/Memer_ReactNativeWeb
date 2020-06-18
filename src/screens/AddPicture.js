@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity, Text} from "react-native";
+import {StyleSheet, View, TouchableOpacity, Text} from "react-native";
 import {useContext, useState} from "react";
 import ImagePicker from "react-native-everywhere-image-picker";
 import {UserContext} from "../modules/auth/UserContext";

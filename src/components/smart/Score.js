@@ -2,14 +2,14 @@ import * as React from 'react';
 import {useState} from 'react';
 import {Text, View} from "react-native";
 import {TouchableOpacity} from "react-native-web";
-
+import Icon from '@material-ui/core/Icon';
 export function Score(props) {
     const token = props.token;
     const name = props.name;
     const [score, setScore] = useState(props.score);
 
     function setScoreFun() {
-        if (token != '') {
+        if (token !== '') {
             try {
                 fetch('http://localhost:8080/score?imageName=' + name, {
                     method: 'GET',
@@ -33,9 +33,10 @@ export function Score(props) {
 
 
     return (
-        <View>
-            <TouchableOpacity onPress={() => setScoreFun()}>
-                <Text>{score}</Text>
+        <View style={{marginTop: '5px'}}>
+            <TouchableOpacity  style={{flexDirection: 'row'}} onPress={() => setScoreFun()}>
+                <Icon>favorite_border</Icon>
+                <Text style={{fontSize: '110%', color: 'grey'}}>{score}</Text>
             </TouchableOpacity>
         </View>
     )

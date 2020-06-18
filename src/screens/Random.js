@@ -2,6 +2,7 @@ import * as React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../modules/auth/UserContext";
+import Score from "../components/smart/Score";
 
 export function Random() {
     const {user} = useContext(UserContext);
@@ -54,6 +55,11 @@ export function Random() {
                         <View style={mainStyles.tagsContainer}>
                             {tags}
                         </View>
+                        <Score
+                            name={res.name}
+                            token={user}
+                            score={res.points}
+                        />
                     </View>
                 </View>
             )

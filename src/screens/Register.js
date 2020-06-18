@@ -25,7 +25,7 @@ export function Register() {
             })
         }).then(response => {
             console.log(response.status)
-            if (response.status == 201) {
+            if (response.status === 201) {
                 console.log('udalo sie');
             } else {
                 console.log('no trudno');

@@ -1,13 +1,10 @@
 import * as React from 'react';
-import {
-    View,
-    Image, StyleSheet,
-} from 'react-native';
-import {Text} from "react-native-web";
-import {Store} from "../../modules/auth/Store";
 import {useEffect, useState} from 'react';
+import {Image, StyleSheet, View,} from 'react-native';
+import {Text} from "react-native-web";
+import Score from "./Score";
 
-export function MainGallery(props){
+export function MainGallery(props) {
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(0);
     const [posts, setPosts] = useState([]);
@@ -34,45 +31,54 @@ export function MainGallery(props){
             .then(response => _renderMainGallery(response));
     }, [])
 
-    async function _renderMainGallery(images){
+    async function _renderMainGallery(images) {
         try {
             let cards = [];
             images.forEach(imageParam => {
                 let tags = [];
                 imageParam.tags.forEach(tag => {
-                    tags.push(<View key={imageParam.name + tag} style={mainStyles.tag}><Text style={{}}>{tag}</Text></View>)
+                    tags.push(<View key={imageParam.name + tag} style={mainStyles.tag}><Text
+                        style={{}}>{tag}</Text></View>)
                 })
                 cards.push(
                     <View key={imageParam.name} border="light" style={{
-                        minHeight:'60%', marginTop:'3%'
+                        minHeight: '60%', marginTop: '3%'
                     }}>
                         <View style={mainStyles.top}>
                             <Text>{imageParam.title}</Text>
                         </View>
                         <View style={mainStyles.bottom}>
                             <View style={mainStyles.imageContainer}>
-                                <Image resizeMode="stretch" style={{ height: '100%', marginRight: '5px', borderRadius: '1%'}}
+                                <Image resizeMode="stretch"
+                                       style={{height: '100%', marginRight: '5px', borderRadius: '1%'}}
                                        source={'http://localhost:8080/upload/static/images/' + imageParam.name}/>
                             </View>
-                            <View style={mainStyles.tagsContainer}>
-                                {tags}
-                            </View>
+                                <Score
+                                    name={imageParam.name}
+                                    token={props.token}
+                                    score={imageParam.points}
+                                />
+                                <View style={mainStyles.tagsContainer}>
+                                    {tags}
+                                </View>
                         </View>
                     </View>
                 );
             });
             setPosts(cards);
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
+
     return (
-         <View style={mainStyles.container}>
-                {posts}
-         </View>
+        <View style={mainStyles.container}>
+            {posts}
+        </View>
     );
 
 }
+
 export default MainGallery;
 const
     mainStyles = StyleSheet.create({
@@ -105,9 +111,8 @@ const
         },
         tagsContainer: {
             flex: 0.3,
-            marginLeft: '1%',
             flexDirection: 'row',
-            justifyContent: 'flex-end'
+            alignItems: 'flex-end',
         },
         tag: {
             flex: 0.25,
