@@ -5,6 +5,7 @@ import {Text} from "react-native-web";
 import Score from "./Score";
 import Card from "react-bootstrap/Card";
 import ErrorHandler from './../../modules/errors/ErrorHandler';
+import CardMaker from "./CardMaker";
 export function MainGallery(props) {
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(0);
@@ -23,13 +24,16 @@ export function MainGallery(props) {
                 .then(ErrorHandler._ErrorHandler)
                 .then((response) => response.json())
                 .then((responseData) => {
-                    let arrays = [];
-                    responseData.forEach(
-                        (image) => {
-                            arrays.push(image);
-                        }
-                    )
-                    return arrays;
+                    try {
+                        let arrays = [];
+                        responseData.forEach(
+                            (image) => {
+                                arrays.push(image);
+                            }
+                        )
+                        return arrays;
+                    }catch (err) {
+                    }
                 })
                 .then(response => _renderMainGallery(response));
         }catch(err){
@@ -41,57 +45,8 @@ export function MainGallery(props) {
         try {
             let cards = [];
             images.forEach(imageParam => {
-                let tags = [];
-                imageParam.tags.forEach(tag => {
-                    tags.push(
-                        <View key={imageParam.name + tag} style={mainStyles.tag}>
-                            <Text
-                                style={{}}>
-                                {tag}
-                            </Text>
-                        </View>
-                    )
-                })
                 cards.push(
-                    <Card key={imageParam.name} style={{
-                        marginTop: '2%',
-                        width: '100%',
-                        height: '80%',
-                        borderStyle: 'solid',
-                        borderWidth: '1px',
-                        borderColor: '#ffd31d',
-                        padding: "0 10px 20px 10px",
-                    }}>
-                        <Card.Body style={{borderRadius: '5%'}}>
-                            <View
-                                style={{
-                                    flex: 0.5,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                <Text style={{fontSize: '110%', color: 'grey'}}>
-                                    {imageParam.title}
-                                </Text>
-                            </View>
-                            <Card.Img
-                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
-                                src={
-                                    'http://localhost:8080/upload/static/images/' + imageParam.name
-                                }/>
-                            <View style={{flexDirection: 'row', flex: 1, height: '5%'}}>
-                                <View style={{flexDirection: 'row', flex: 1, marginTop: '5px', marginBottom: '5px'}}>
-                                    {tags}
-                                </View>
-                                <View style={{flexGrow: 'flex-end'}}>
-                                    <Score
-                                        name={imageParam.name}
-                                        token={props.token}
-                                        score={imageParam.points}
-                                    />
-                                </View>
-                            </View>
-                        </Card.Body>
-                    </Card>
+                   <CardMaker imageParam = {imageParam} token={props.token} />
                 );
             });
             setPosts(cards);

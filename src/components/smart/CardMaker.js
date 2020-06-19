@@ -1,19 +1,31 @@
 import * as React from 'react';
 import {Score} from "./Score";
-import {Text, View} from "react-native";
+import {useState} from 'react';
+import {StyleSheet, Text, View} from "react-native";
 import Card from "react-bootstrap/Card";
 export function CardMaker(props) {
     const token = props.token;
     const imageParam = props.imageParam;
-    let tags = [];
-    if(props.tags != null){
-        tags = props.tags;
+    const [tags, setTags] = useState([]);
+
+    if(props.from !== 'topGallery' &&    props.from !== 'search') {
+        if (imageParam.tags != null) {
+            imageParam.tags.forEach(tag => {
+                tags.push(
+                    <View key={imageParam.name + tag} style={mainStyles.tag}>
+                        <Text
+                            style={{}}>
+                            {tag}
+                        </Text>
+                    </View>
+                )
+            })
+        }
     }
-
-
     return (
         <Card key={imageParam.name} style={{
             marginTop: '2%',
+            flex: 1,
             width: '100%',
             height: '80%',
             borderStyle: 'solid',
@@ -53,7 +65,23 @@ export function CardMaker(props) {
         </Card>
     )
 
-
 }
 
 export default CardMaker;
+
+const
+    mainStyles = StyleSheet.create({
+        tagsContainer: {
+            flex: 1,
+            flexDirection: 'row',
+        },
+        tag: {
+            flex: 0.05,
+            height: '100%',
+            borderBottomStyle: 'solid',
+            borderBottomWidth: '1px',
+            borderBottomColor: '#ffd31d',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+    });

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import {useContext, useState} from 'react';
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Button from "react-bootstrap/Button";
 import {ScrollView} from "react-native-web";
 import {UserContext} from "../modules/auth/UserContext";
-import Score from "../components/smart/Score";
 import ErrorHandler from "../modules/errors/ErrorHandler";
-import Card from "react-bootstrap/Card";
+import CardMaker from "../components/smart/CardMaker";
 
 export function Search() {
     const {user} = useContext(UserContext);
@@ -41,11 +40,11 @@ export function Search() {
                             }
                         )
                         return arrays;
-                    }catch(err){
+                    } catch (err) {
                     }
                 })
                 .then(res => renderSearchedPosts(res))
-        }catch(err){
+        } catch (err) {
 
         }
     }
@@ -63,42 +62,7 @@ export function Search() {
             let cards = [];
             images.forEach(imageParam => {
                 cards.push(
-                    <Card key={imageParam.name} style={{
-                        width: '100%',
-                        height: '80%',
-                        borderStyle: 'solid',
-                        borderWidth: '1px',
-                        borderColor: '#ffd31d',
-                        marginTop: '5%',
-                        padding: "0 10px 20px 10px",
-                    }}>
-                        <Card.Body style={{borderRadius: '5%'}}>
-                            <View
-                                style={{
-                                    flex: 0.5,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                <Text style={{fontSize: '110%', color: 'grey'}}>
-                                    {imageParam.title}
-                                </Text>
-                            </View>
-                            <Card.Img
-                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
-                                src={
-                                    'http://localhost:8080/upload/static/images/' + imageParam.name
-                                }/>
-                            <View style={{flexDirection: 'row', flex: 1, height: '5%'}}>
-                                <View style={{flexGrow: 'flex-end'}}>
-                                    <Score
-                                        name={imageParam.name}
-                                        token={user}
-                                        score={imageParam.points}
-                                    />
-                                </View>
-                            </View>
-                        </Card.Body>
-                    </Card>
+                    <CardMaker imageParam={imageParam} from={'search'} token={user}/>
                 );
             });
             setPosts(cards);
@@ -139,16 +103,17 @@ export function Search() {
                 </TouchableOpacity>
             </View>
 
-                <View style={styles.mainBottom}>
-                    <ScrollView contentContainerStyle={{flexGrow: 0.8, flex: 0.5, width: "50%"}}>
+            <View style={styles.mainBottom}>
+                <ScrollView contentContainerStyle={{flexGrow: 0.8, flex: 0.5, width: "50%"}}>
                     {posts}
-                    </ScrollView>
-                </View>
+                </ScrollView>
+            </View>
 
         </View>
 
     );
 }
+
 export default Search;
 const styles = StyleSheet.create({
     mainBottom: {

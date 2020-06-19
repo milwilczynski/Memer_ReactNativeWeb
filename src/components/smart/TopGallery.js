@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import Card from "react-bootstrap/Card";
+import {StyleSheet, View} from "react-native";
 
-import {StyleSheet, Text, View} from "react-native";
-import Score from './Score';
 import ErrorHandler from "../../modules/errors/ErrorHandler";
+import CardMaker from "./CardMaker";
 
 export function TopGallery(props) {
     const token = props.token;
@@ -22,16 +21,20 @@ export function TopGallery(props) {
                 .then(ErrorHandler._ErrorHandler)
                 .then((response) => response.json())
                 .then((responseData) => {
-                    let arrays = [];
-                    responseData.forEach(
-                        (image) => {
-                            arrays.push(image);
-                        }
-                    )
-                    return arrays;
+                    try {
+                        let arrays = [];
+                        responseData.forEach(
+                            (image) => {
+                                arrays.push(image);
+                            }
+                        )
+                        return arrays;
+                    } catch (err) {
+
+                    }
                 })
                 .then(response => _renderTopGallery(response));
-        }catch(err){
+        } catch (err) {
 
         }
     }, [])
@@ -41,47 +44,11 @@ export function TopGallery(props) {
             let cards = [];
             images.forEach(imageParam => {
                 cards.push(
-                    <Card style={{
-                        width: '100%',
-                        height: '100%',
-                        borderStyle: 'solid',
-                        borderWidth: '1px',
-                        borderColor: '#ffd31d'
-                    }}>
-                        <Card.Body style={{borderRadius: '5%'}}>
-                            <Card.Img
-                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
-                                variant="bottom"
-                                src={
-                                    'http://localhost:8080/upload/static/images/' + imageParam.name
-                                }/>
-                            <View style={{flexDirection: 'row'}}>
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        marginLeft: '1%',
-                                    }}>
-                                    <Text style={{fontSize: '110%', color: 'grey'}}>
-                                        {imageParam.title}
-                                    </Text>
-                                </View>
-                                <View>
-                                    <Score
-                                        name={imageParam.name}
-                                        token={token}
-                                        score={imageParam.points}
-                                    />
-                                </View>
-                            </View>
-                        </Card.Body>
-                    </Card>
+                    <CardMaker imageParam={imageParam} from={"topGallery"} token={token}/>
                 );
             });
             setPosts(cards);
         } catch (err) {
-            //
         }
     }
 
@@ -109,7 +76,6 @@ const topStyles = StyleSheet.create({
         marginLeft: '2.5%',
         width: '95%',
         flex: 0.95,
-        marginTop: '1.25%',
         height: '100%',
         flexDirection: 'row',
     },
@@ -123,8 +89,8 @@ const topStyles = StyleSheet.create({
     },
     restImageRow: {
         flex: 1,
+        marginTop: '2.5px',
         flexDirection: 'row',
-        zIndex: 2
     },
     singleImage: {
         flex: 0.5,
@@ -136,7 +102,6 @@ const topStyles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#ffd31d',
         marginTop: '32%',
-        zIndex: 1,
         position: 'absolute'
     },
 });
