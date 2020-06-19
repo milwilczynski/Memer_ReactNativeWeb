@@ -4,7 +4,7 @@ import {useState} from "react";
 import TextInput from "react-native-web/dist/exports/TextInput";
 import Button from "react-bootstrap/Button";
 import ErrorHandler from "../modules/errors/ErrorHandler";
-
+import {history} from "../store/history";
 export function Register() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -25,7 +25,8 @@ export function Register() {
                     userPassword: password,
                     email: email,
                 })
-            }).then(ErrorHandler._ErrorHandler);
+            }).then(ErrorHandler._ErrorHandler)
+            .then(history.push('/login'));
         }catch(err){
 
         }
