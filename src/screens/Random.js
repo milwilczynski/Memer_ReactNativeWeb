@@ -1,8 +1,10 @@
 import * as React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {UserContext} from "../modules/auth/UserContext";
 import Score from "../components/smart/Score";
+import ErrorHandler from "../modules/errors/ErrorHandler";
+import Card from "react-bootstrap/Card";
 
 export function Random() {
     const {user} = useContext(UserContext);
@@ -10,18 +12,22 @@ export function Random() {
 
 
     useEffect(() => {
-        fetch('http://localhost:8080/random', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": "Bearer " + user
-            }
-        })
-            .then(res => res.json())
-            .then(res => _renderPosts(res))
-    }, [user])
+        try {
+            fetch('http://localhost:8080/random', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + user
+                }
+            })
+                .then(ErrorHandler._ErrorHandler)
+                .then(res => res.json())
+                .then(res => _renderPosts(res))
+        } catch (err) {
 
+        }
+    }, [user])
 
 
     async function _renderPosts(res) {
@@ -40,36 +46,54 @@ export function Random() {
             )
             let card = [];
             card.push(
-                <View key={res.name} border="light" style={{
-                    minHeight: '100%'
+                <Card key={res.name} style={{
+                    marginTop: '2%',
+                    width: '100%',
+                    height: '80%',
+                    borderStyle: 'solid',
+                    borderWidth: '1px',
+                    borderColor: '#ffd31d',
+                    padding: "0 10px 20px 10px",
                 }}>
-                    <View style={mainStyles.top}>
-                        <Text>{res.title}</Text>
-                    </View>
-                    <View style={mainStyles.bottom}>
-                        <View style={mainStyles.imageContainer}>
-                            <Image resizeMode="stretch"
-                                   style={{height: '100%', marginRight: '5px', borderRadius: '1%'}}
-                                   source={'http://localhost:8080/upload/static/images/' + res.name}/>
+                    <Card.Body style={{borderRadius: '5%'}}>
+                        <View
+                            style={{
+                                flex: 0.5,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Text style={{fontSize: '110%', color: 'grey'}}>
+                                {res.title}
+                            </Text>
                         </View>
-                        <View style={mainStyles.tagsContainer}>
-                            {tags}
+                        <Card.Img
+                            style={{width: '100%', height: "95%", borderRadius: '1%'}}
+                            src={
+                                'http://localhost:8080/upload/static/images/' + res.name
+                            }/>
+                        <View style={{flexDirection: 'row', flex: 1, height: '5%'}}>
+                            <View style={{flexDirection: 'row', flex: 1, marginTop: '5px', marginBottom: '5px'}}>
+                                {tags}
+                            </View>
+                            <View style={{flexGrow: 'flex-end'}}>
+                                <Score
+                                    name={res.name}
+                                    token={user}
+                                    score={res.points}
+                                />
+                            </View>
                         </View>
-                        <Score
-                            name={res.name}
-                            token={user}
-                            score={res.points}
-                        />
-                    </View>
-                </View>
+                    </Card.Body>
+                </Card>
             )
             setPost(card);
         } catch (err) {
 
         }
     }
+
     return (
-        <View style={{height: '50%', width: '80%', justifyContent: 'center', flex: 1}}>
+        <View style={{height: '50%', width: '50%', justifyContent: 'center', flex: 1}}>
             <View style={{flex: 0.8}}>
                 {post}
             </View>
@@ -85,41 +109,16 @@ const
     mainStyles = StyleSheet.create({
         container: {
             flex: 1,
-            marginLeft: '15%',
-            width: '70%',
-            minHeight: '100%',
-        },
-        titleContainer: {
-            flex: 1,
-        },
-        top: {
-            flex: 0.05,
-            borderBottomWidth: '2px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: '#ffd31d',
-            marginBottom: '0.5%'
-        },
-        bottom: {
-            flex: 1,
-            flexDirection: 'row',
-            width: '90%',
-            marginLeft: '5%'
-        },
-        imageContainer: {
-            flex: 1,
-            minHeight: '100%',
-            marginRight: '0.2%',
+            marginLeft: '20%',
+            width: '60%',
         },
         tagsContainer: {
-            flex: 0.3,
-            marginLeft: '1%',
+            flex: 1,
             flexDirection: 'row',
-            justifyContent: 'flex-end'
         },
         tag: {
-            flex: 0.25,
-            height: '5%',
-            margin: '0.8%',
+            flex: 0.05,
+            height: '100%',
             borderBottomStyle: 'solid',
             borderBottomWidth: '1px',
             borderBottomColor: '#ffd31d',

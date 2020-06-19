@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {Text, View} from "react-native";
 import {TouchableOpacity} from "react-native-web";
 import Icon from '@material-ui/core/Icon';
+import ErrorHandler from "../../modules/errors/ErrorHandler";
 export function Score(props) {
     const token = props.token;
     const name = props.name;
@@ -19,6 +20,7 @@ export function Score(props) {
                         "Authorization": "Bearer " + token
                     }
                 })
+                    .then(ErrorHandler._ErrorHandler)
                     .then((response) => response.headers)
                     .then((responseData) => responseData.get('actualScore'))
                     .then(responseData => {

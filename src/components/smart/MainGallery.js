@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {Image, StyleSheet, View,} from 'react-native';
+import {StyleSheet, View,} from 'react-native';
 import {Text} from "react-native-web";
 import Score from "./Score";
-
+import Card from "react-bootstrap/Card";
+import ErrorHandler from './../../modules/errors/ErrorHandler';
 export function MainGallery(props) {
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(0);
@@ -11,24 +12,29 @@ export function MainGallery(props) {
 
 
     useEffect(() => {
-        fetch('http://localhost:8080/page?page=' + page, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                let arrays = [];
-                responseData.forEach(
-                    (image) => {
-                        arrays.push(image);
-                    }
-                )
-                return arrays;
+        try {
+            fetch('http://localhost:8080/page?page=' + page, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
             })
-            .then(response => _renderMainGallery(response));
+                .then(ErrorHandler._ErrorHandler)
+                .then((response) => response.json())
+                .then((responseData) => {
+                    let arrays = [];
+                    responseData.forEach(
+                        (image) => {
+                            arrays.push(image);
+                        }
+                    )
+                    return arrays;
+                })
+                .then(response => _renderMainGallery(response));
+        }catch(err){
+            console.log(err);
+        }
     }, [])
 
     async function _renderMainGallery(images) {
@@ -37,32 +43,55 @@ export function MainGallery(props) {
             images.forEach(imageParam => {
                 let tags = [];
                 imageParam.tags.forEach(tag => {
-                    tags.push(<View key={imageParam.name + tag} style={mainStyles.tag}><Text
-                        style={{}}>{tag}</Text></View>)
+                    tags.push(
+                        <View key={imageParam.name + tag} style={mainStyles.tag}>
+                            <Text
+                                style={{}}>
+                                {tag}
+                            </Text>
+                        </View>
+                    )
                 })
                 cards.push(
-                    <View key={imageParam.name} border="light" style={{
-                        minHeight: '60%', marginTop: '3%'
+                    <Card key={imageParam.name} style={{
+                        marginTop: '2%',
+                        width: '100%',
+                        height: '80%',
+                        borderStyle: 'solid',
+                        borderWidth: '1px',
+                        borderColor: '#ffd31d',
+                        padding: "0 10px 20px 10px",
                     }}>
-                        <View style={mainStyles.top}>
-                            <Text>{imageParam.title}</Text>
-                        </View>
-                        <View style={mainStyles.bottom}>
-                            <View style={mainStyles.imageContainer}>
-                                <Image resizeMode="stretch"
-                                       style={{height: '100%', marginRight: '5px', borderRadius: '1%'}}
-                                       source={'http://localhost:8080/upload/static/images/' + imageParam.name}/>
+                        <Card.Body style={{borderRadius: '5%'}}>
+                            <View
+                                style={{
+                                    flex: 0.5,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <Text style={{fontSize: '110%', color: 'grey'}}>
+                                    {imageParam.title}
+                                </Text>
                             </View>
-                                <Score
-                                    name={imageParam.name}
-                                    token={props.token}
-                                    score={imageParam.points}
-                                />
-                                <View style={mainStyles.tagsContainer}>
+                            <Card.Img
+                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
+                                src={
+                                    'http://localhost:8080/upload/static/images/' + imageParam.name
+                                }/>
+                            <View style={{flexDirection: 'row', flex: 1, height: '5%'}}>
+                                <View style={{flexDirection: 'row', flex: 1, marginTop: '5px', marginBottom: '5px'}}>
                                     {tags}
                                 </View>
-                        </View>
-                    </View>
+                                <View style={{flexGrow: 'flex-end'}}>
+                                    <Score
+                                        name={imageParam.name}
+                                        token={props.token}
+                                        score={imageParam.points}
+                                    />
+                                </View>
+                            </View>
+                        </Card.Body>
+                    </Card>
                 );
             });
             setPosts(cards);
@@ -86,38 +115,14 @@ const
             flex: 1,
             marginLeft: '20%',
             width: '60%',
-            minHeight: '100%'
-        },
-        titleContainer: {
-            flex: 1,
-        },
-        top: {
-            flex: 0.05,
-            borderBottomWidth: '2px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: '#ffd31d',
-            marginBottom: '0.5%'
-        },
-        bottom: {
-            flex: 1,
-            flexDirection: 'row',
-            width: '90%',
-            marginLeft: '5%'
-        },
-        imageContainer: {
-            flex: 1,
-            minHeight: '100%',
-            marginRight: '0.2%',
         },
         tagsContainer: {
-            flex: 0.3,
+            flex: 1,
             flexDirection: 'row',
-            alignItems: 'flex-end',
         },
         tag: {
-            flex: 0.25,
-            height: '5%',
-            margin: '0.8%',
+            flex: 0.05,
+            height: '100%',
             borderBottomStyle: 'solid',
             borderBottomWidth: '1px',
             borderBottomColor: '#ffd31d',

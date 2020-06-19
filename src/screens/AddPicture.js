@@ -6,6 +6,7 @@ import {UserContext} from "../modules/auth/UserContext";
 import FileUtility from "../utilites/FileUtility";
 import TextInput from "react-native-web/dist/exports/TextInput";
 import Button from "react-bootstrap/Button";
+import ErrorHandler from "../modules/errors/ErrorHandler";
 export function AddPicture() {
     const {user} = useContext(UserContext);
     const [uri, setUri] = useState(null);
@@ -25,34 +26,37 @@ export function AddPicture() {
     };
 
     async function submit() {
-        if(uri !== null) {
-            let tags = [];
-            if(tag1 === true) {
-                tags.push("TAG1");
+        try {
+            if (uri !== null) {
+                let tags = [];
+                if (tag1 === true) {
+                    tags.push("TAG1");
+                }
+                if (tag2 === true) {
+                    tags.push("TAG2")
+                }
+                let formdata = new FormData();
+                formdata.append("image", FileUtility.dataURLtoFile(uri.uri, filename), filename);
+                formdata.append('imageData', new Blob([JSON.stringify(
+                    {
+                        title: title,
+                        name: "",
+                        points: "0",
+                        tags: tags
+                    })], {
+                    type: "application/json"
+                }));
+                await fetch('http://localhost:8080/uploadFile', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        "Authorization": "Bearer " + user
+                    }, body: formdata
+                })
+                    .then(ErrorHandler._ErrorHandler)
+                    .then(setText('Pick an image!'))
             }
-            if(tag2 === true){
-                tags.push("TAG2")
-            }
-            let formdata = new FormData();
-            formdata.append("image", FileUtility.dataURLtoFile(uri.uri, filename), filename);
-            formdata.append('imageData', new Blob([JSON.stringify(
-                {
-                    title: title,
-                    name: "",
-                    points: "0",
-                    tags: tags
-                })], {
-                type: "application/json"
-            }));
-            await fetch('http://localhost:8080/uploadFile', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    "Authorization": "Bearer " + user
-                }, body: formdata
-            })
-                .then(response => console.log(response.status))
-                .then(setText('Pick an image!'))
+        }catch(err) {
         }
     }
     function checkIfChecked(whichTag){

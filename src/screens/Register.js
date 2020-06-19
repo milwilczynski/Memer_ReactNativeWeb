@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useState} from "react";
 import TextInput from "react-native-web/dist/exports/TextInput";
 import Button from "react-bootstrap/Button";
+import ErrorHandler from "../modules/errors/ErrorHandler";
 
 export function Register() {
     const [login, setLogin] = useState('');
@@ -12,25 +13,22 @@ export function Register() {
 
 
     async function submit() {
-        fetch('http://localhost:8080/register', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userName: login,
-                userPassword: password,
-                email: email,
-            })
-        }).then(response => {
-            console.log(response.status)
-            if (response.status === 201) {
-                console.log('udalo sie');
-            } else {
-                console.log('no trudno');
-            }
-        })
+        try {
+            fetch('http://localhost:8080/register', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userName: login,
+                    userPassword: password,
+                    email: email,
+                })
+            }).then(ErrorHandler._ErrorHandler);
+        }catch(err){
+
+        }
     }
 
     return (

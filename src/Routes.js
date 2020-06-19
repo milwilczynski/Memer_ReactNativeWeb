@@ -12,6 +12,7 @@ import {StyleSheet, View} from "react-native";
 import PrivateRoutes from "./modules/auth/PrivateRoutes";
 import {Search} from "./screens/Search";
 import {AddPicture} from "./screens/AddPicture";
+import {ErrorNoPageFound} from "./modules/errors/ErrorNoPageFound";
 
 export const Routes = () => {
     const [user, setUser] = useState('');
@@ -28,6 +29,7 @@ export const Routes = () => {
                     <Route exact path='/register' component={Register}/>
                     <PrivateRoutes exact path='/random' component={Random}/>
                     <PrivateRoutes exact path='/addpicture' component={AddPicture}/>
+                    <Route exact path='/error' component={ErrorNoPageFound}/>
                     <Route exact path='/search' component={Search}/>
                 </Switch>
             </UserContext.Provider>

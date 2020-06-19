@@ -5,6 +5,7 @@ import {UserContext} from "../modules/auth/UserContext";
 import {history} from "../store/history";
 import TextInput from "react-native-web/dist/exports/TextInput";
 import Button from "react-bootstrap/Button";
+import ErrorHandler from "../modules/errors/ErrorHandler";
 
 export function Login() {
     const {setUser} = useContext(UserContext);
@@ -12,26 +13,27 @@ export function Login() {
     const [password, setPassword] = useState('urkek123');
 
     async function submit() {
-         await fetch('http://localhost:8080/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userName: login,
-                userPassword: password
+        try {
+            await fetch('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userName: login,
+                    userPassword: password
+                })
             })
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-            })
-            .then((responseData) => {
-                setUser(responseData.token);
-                history.push('/');
-            })
+                .then(ErrorHandler._ErrorHandler)
+                .then((response) => response.json())
+                .then((responseData) => {
+                    setUser(responseData.token);
+                    history.push('/');
+                })
+        }catch(err){
+
+        }
     }
 
     return (

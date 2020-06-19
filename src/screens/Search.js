@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import {ScrollView} from "react-native-web";
 import {UserContext} from "../modules/auth/UserContext";
 import Score from "../components/smart/Score";
+import ErrorHandler from "../modules/errors/ErrorHandler";
+import Card from "react-bootstrap/Card";
 
 export function Search() {
     const {user} = useContext(UserContext);
@@ -13,31 +15,39 @@ export function Search() {
     const [chosen, setChosen] = useState(true);
 
     function submit() {
-        let para = '';
-        if (chosen === true) {
-            para = 'findByTag?tagEnum=' + inputValue;
-        }
-        if (chosen === false) {
-            para = 'getByTitle?title=' + inputValue;
-        }
-        fetch('http://localhost:8080/' + para, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+        try {
+            let para = '';
+            if (chosen === true) {
+                para = 'findByTag?tagEnum=' + inputValue;
             }
-        })
-            .then(res => res.json())
-            .then((responseData) => {
-                let arrays = [];
-                responseData.forEach(
-                    (image) => {
-                        arrays.push(image);
-                    }
-                )
-                return arrays;
+            if (chosen === false) {
+                para = 'getByTitle?title=' + inputValue;
+            }
+            fetch('http://localhost:8080/' + para, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
             })
-            .then(res => renderSearchedPosts(res))
+                .then(ErrorHandler._ErrorHandler)
+                .then(res => res.json())
+                .then((responseData) => {
+                    try {
+                        let arrays = [];
+                        responseData.forEach(
+                            (image) => {
+                                arrays.push(image);
+                            }
+                        )
+                        return arrays;
+                    }catch(err){
+                    }
+                })
+                .then(res => renderSearchedPosts(res))
+        }catch(err){
+
+        }
     }
 
     function changeInputValue(byWhat) {
@@ -53,25 +63,42 @@ export function Search() {
             let cards = [];
             images.forEach(imageParam => {
                 cards.push(
-                    <View key={imageParam.name} border="light" style={{
-                        minHeight: '100%', marginTop: '5%'
+                    <Card key={imageParam.name} style={{
+                        width: '100%',
+                        height: '80%',
+                        borderStyle: 'solid',
+                        borderWidth: '1px',
+                        borderColor: '#ffd31d',
+                        marginTop: '5%',
+                        padding: "0 10px 20px 10px",
                     }}>
-                        <View style={mainStyles.top}>
-                            <Text>{imageParam.title}</Text>
-                        </View>
-                        <View style={mainStyles.bottom}>
-                            <View style={mainStyles.imageContainer}>
-                                <Image resizeMode="stretch"
-                                       style={{height: '100%', marginRight: '5px', borderRadius: '1%'}}
-                                       source={'http://localhost:8080/upload/static/images/' + imageParam.name}/>
+                        <Card.Body style={{borderRadius: '5%'}}>
+                            <View
+                                style={{
+                                    flex: 0.5,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <Text style={{fontSize: '110%', color: 'grey'}}>
+                                    {imageParam.title}
+                                </Text>
                             </View>
-                            <Score
-                                name={imageParam.name}
-                                token={user}
-                                score={imageParam.points}
-                            />
-                        </View>
-                    </View>
+                            <Card.Img
+                                style={{width: '100%', height: "95%", borderRadius: '1%'}}
+                                src={
+                                    'http://localhost:8080/upload/static/images/' + imageParam.name
+                                }/>
+                            <View style={{flexDirection: 'row', flex: 1, height: '5%'}}>
+                                <View style={{flexGrow: 'flex-end'}}>
+                                    <Score
+                                        name={imageParam.name}
+                                        token={user}
+                                        score={imageParam.points}
+                                    />
+                                </View>
+                            </View>
+                        </Card.Body>
+                    </Card>
                 );
             });
             setPosts(cards);
@@ -111,22 +138,23 @@ export function Search() {
                         }} variant="warning">Search!</Button>
                 </TouchableOpacity>
             </View>
-            <ScrollView contentContainerStyle={{flexGrow: 0.8, flex: 0.5}}>
+
                 <View style={styles.mainBottom}>
+                    <ScrollView contentContainerStyle={{flexGrow: 0.8, flex: 0.5, width: "50%"}}>
                     {posts}
+                    </ScrollView>
                 </View>
-            </ScrollView>
+
         </View>
 
     );
 }
-
 export default Search;
 const styles = StyleSheet.create({
     mainBottom: {
         flex: 0.8,
         minHeight: '50%',
-        width: '50%',
+        width: '100%',
         marginLeft: '25%'
     },
     formContainer: {

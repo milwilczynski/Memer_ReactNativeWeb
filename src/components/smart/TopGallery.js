@@ -4,30 +4,36 @@ import Card from "react-bootstrap/Card";
 
 import {StyleSheet, Text, View} from "react-native";
 import Score from './Score';
+import ErrorHandler from "../../modules/errors/ErrorHandler";
 
 export function TopGallery(props) {
     const token = props.token;
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/page', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                let arrays = [];
-                responseData.forEach(
-                    (image) => {
-                        arrays.push(image);
-                    }
-                )
-                return arrays;
+        try {
+            fetch('http://localhost:8080/page', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
             })
-            .then(response => _renderTopGallery(response));
+                .then(ErrorHandler._ErrorHandler)
+                .then((response) => response.json())
+                .then((responseData) => {
+                    let arrays = [];
+                    responseData.forEach(
+                        (image) => {
+                            arrays.push(image);
+                        }
+                    )
+                    return arrays;
+                })
+                .then(response => _renderTopGallery(response));
+        }catch(err){
+
+        }
     }, [])
 
     async function _renderTopGallery(images) {
