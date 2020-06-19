@@ -3,44 +3,38 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import TopGallery from './../components/topgallery/TopGallery';
-import MainGallery from './../components/maingallery/MainGallery';
+import TopGallery from '../components/smart/TopGallery';
+import MainGallery from '../components/smart/MainGallery';
 import {ScrollView} from "react-native-web";
-import {observer} from "mobx-react-lite";
+import {useContext} from "react";
+import {UserContext} from "../modules/auth/UserContext";
 
-
-interface Props{
-
-}
-
-export const Home: React.FC<Props> = observer(() => {
+export function Home(){
+    const {user} = useContext(UserContext);
         return (
             <View style={{width: '100%', flex: 1}}>
                 <View style={{width: '100%', flex: 1}}>
                     <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
                         <View style={styles.mainTop}>
-                            <TopGallery/>
+                            <TopGallery token={user}/>
                         </View>
                         <View style={styles.mainBottom}>
-                            <MainGallery/>
-                            <MainGallery/>
-                            <MainGallery/>
-                            <MainGallery/>
+                            <MainGallery token={user}/>
                         </View>
                     </ScrollView>
                 </View>
             </View>
         );
-});
+};
+
 const styles = StyleSheet.create({
     mainTop:{
-        flex: 5,
+        flex: 1,
         minHeight: '100%',
-        backgroundColor: '#f0f0f0'
     },
     mainBottom:{
-        flex: 6,
-        minHeight: '60%'
+        flex: 1,
+        minHeight: '100%',
     }
 
 });
