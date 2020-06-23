@@ -2,9 +2,7 @@ import * as React from 'react';
 import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {UserContext} from "../modules/auth/UserContext";
-import Score from "../components/smart/Score";
 import ErrorHandler from "../modules/errors/ErrorHandler";
-import Card from "react-bootstrap/Card";
 import CardMaker from "../components/smart/CardMaker";
 
 export function Random() {

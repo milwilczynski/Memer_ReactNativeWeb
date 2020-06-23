@@ -104,7 +104,7 @@ export function Search() {
             </View>
 
             <View style={styles.mainBottom}>
-                <ScrollView contentContainerStyle={{flexGrow: 0.8, flex: 0.5, width: "50%"}}>
+                <ScrollView contentContainerStyle={{flexGrow: 0.99, flex: 0.5, width: "50%"}}>
                     {posts}
                 </ScrollView>
             </View>
@@ -118,7 +118,7 @@ export default Search;
 const styles = StyleSheet.create({
     mainBottom: {
         flex: 0.8,
-        minHeight: '50%',
+        minHeight: '80%',
         width: '100%',
         marginLeft: '25%'
     },

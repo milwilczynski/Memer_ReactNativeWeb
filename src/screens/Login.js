@@ -67,6 +67,7 @@ export function Login() {
                 <Text>Password</Text>
                 <TextInput
                     style={styles.singleForm}
+                    secureTextEntry={true}
                     onChangeText={(text) => {
                         setPassword(text)
                     }}

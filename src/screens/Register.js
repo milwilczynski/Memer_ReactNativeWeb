@@ -70,6 +70,7 @@ export function Register() {
                 <Text>Password</Text>
                 <TextInput
                     style={styles.singleForm}
+                    secureTextEntry={true}
                     onChangeText={(text) => {
                         setPassword(text);
                     }}
@@ -77,6 +78,7 @@ export function Register() {
                 <Text>Re-Password</Text>
                 <TextInput
                     style={styles.singleForm}
+                    secureTextEntry={true}
                     onChangeText={(text) => {
                         setRePassword(text);
                     }}

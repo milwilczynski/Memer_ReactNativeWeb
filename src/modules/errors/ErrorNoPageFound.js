@@ -6,7 +6,7 @@ export function ErrorNoPageFound(props) {
     const state = props.location.state;
     return (
         <View style={{width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <View style={{width: "16.5%"}}>
+            <View style={{width: "16.8%"}}>
                 <Text style={{
                     color: 'white',
                     fontFamily: 'DM Mono',

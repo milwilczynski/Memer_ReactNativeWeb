@@ -1,14 +1,10 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {StyleSheet, View,} from 'react-native';
-import {Text} from "react-native-web";
-import Score from "./Score";
-import Card from "react-bootstrap/Card";
 import ErrorHandler from './../../modules/errors/ErrorHandler';
 import CardMaker from "./CardMaker";
 export function MainGallery(props) {
-    const [page, setPage] = useState(1);
-    const [lastPage, setLastPage] = useState(0);
+    const [page] = useState(1);
     const [posts, setPosts] = useState([]);
 
 
